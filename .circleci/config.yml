@@ -3,6 +3,7 @@ jobs:
   lint-and-test:
     docker:
       - image: cypress/base:10
+        name: cypress
     steps:
       - checkout
       # restore folders with npm dependencies and Cypress binary
@@ -27,9 +28,12 @@ jobs:
             - ~/.cache
       # start server before starting tests
       - run:
-          command: npx vue-cli-service serve & npx wait-on http://localhost:8080
+          command: npx vue-cli-service serve
           background: true
-      - run: npx cypress run
+      - run: 
+          name: Wait for localhost
+          command: npx wait-on http://localhost:8080
+      - run: npx cypress run --config baseUrl=http://localhost:8080
 
 workflows:
   version: 2
