@@ -27,7 +27,7 @@ jobs:
             - ~/.cache
       # start server before starting tests
       - run:
-          command: npx vue-cli-service serve & wait-on http://localhost:8080
+          command: npx vue-cli-service serve & npx wait-on http://localhost:8080
           background: true
       - run: npx cypress run
 
