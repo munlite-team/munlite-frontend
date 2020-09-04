@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Linting
           command: npm run lint
-      - run: cypress verify
+      - run: npx cypress verify
       # save npm dependencies and Cypress binary for future runs
       - save_cache:
           key: cache-{{ checksum "package.json" }}
@@ -26,9 +26,9 @@ jobs:
             - ~/.cache
       # start server before starting tests
       - run:
-          command: serve --no-clipboard --listen ${PORT:-8080}
+          command: npm run serve --no-clipboard --listen ${PORT:-8080}
           background: true
-      - run: cypress run --record
+      - run: npx cypress run --record
 
 workflows:
   version: 2
