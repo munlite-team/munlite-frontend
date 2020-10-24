@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="info">
-            <div class="info-data" v-for="(value, key) in $store.state.info" :key="key">
+            <div class="info-data" v-for="(value, key) in info" :key="key">
               <p class="title emphasize">{{ key }}</p>
               <p class="data"><b class="emphasize">{{ value }}</b> Delegates</p>
             </div>
@@ -83,6 +83,20 @@ export default {
       warning: false,
       stage: 0,
     };
+  },
+  computed: {
+    info() {
+      const present = this.$store.state.delegates.filter((obj) => obj.presence === 'Present');
+      const pv = this.$store.state.delegates.filter((obj) => obj.presence === 'Present & Voting');
+      const total = present.length + pv.length;
+      const data = {
+        Present: present.length,
+        'Present & Voting': pv.length,
+        'Total Present': total,
+        'DR Sponsors': 3,
+      };
+      return data;
+    },
   },
   methods: {
     showModal() {

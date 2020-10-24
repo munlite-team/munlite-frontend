@@ -6,7 +6,7 @@
     <h2>Roll Call</h2>
     <h3>Countries</h3>
     <div id='call'>
-      <Slider :active="voteCount" prgrs="presence"/>
+      <Slider :active="voteCount" :current="currentCountry" @move="move"/>
       <!-- <CardStack :active="voteCount" prgrs="presence" desc="presence" /> -->
       <div id='selection'>
         <!-- <button @click="un()"
@@ -45,22 +45,29 @@ export default {
   data() {
     return {
       voteCount: 0,
+      currentCountry: 0,
     };
   },
   methods: {
     presence(j) {
-      const i = this.voteCount;
-      this.$store.commit('presence', { i, j });
-      this.voteCount += 1;
-      if (j === 'Present') {
-        this.$store.commit('present');
-      } else if (j === 'Present & Voting') {
-        this.$store.commit('presentVoting');
+      const i = this.currentCountry;
+      const status = this.$store.state.delegates[i].presence;
+      if (status === 'N/A') {
+        this.voteCount += 1;
       }
+      this.$store.commit('presence', { i, j });
+      // if (j === 'Present') {
+      //   this.$store.commit('present');
+      // } else if (j === 'Present & Voting') {
+      //   this.$store.commit('presentVoting');
+      // }
     },
     un() {
       this.voteCount -= 1;
       this.$store.commit('undo');
+    },
+    move(index) {
+      this.currentCountry = index;
     },
   },
 };
