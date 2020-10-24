@@ -1,0 +1,35 @@
+.card {
+  padding: 1%;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 20px;
+  padding: 1rem;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+  font-size: 30px;
+  position: relative;
+
+  .desc {
+    position: absolute;
+    top: 1rem;
+    font-size: 12px;
+  }
+
+  .country{
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.slider {
+  width: 350px;
+  height: 200px;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.25));
+}

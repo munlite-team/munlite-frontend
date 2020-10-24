@@ -6,39 +6,41 @@
     <h2>Roll Call</h2>
     <h3>Countries</h3>
     <div id='call'>
-      <CardStack :active="voteCount" prgrs="presence" desc="presence" />
+      <Slider :active="voteCount" prgrs="presence"/>
+      <!-- <CardStack :active="voteCount" prgrs="presence" desc="presence" /> -->
       <div id='selection'>
-        <button @click="un()"
+        <!-- <button @click="un()"
         :disabled="voteCount === 0"
         title="Undo"
         class="red" id="undo">
           <font-awesome-icon :icon="['fas', 'undo']" size="lg" />
-        </button>
+        </button> -->
         <button @click="presence('Present')">
-          <p>Present</p>
+          Present
         </button>
         <button @click="presence('Present & Voting')">
-          <p>Present<br>&amp; Voting</p>
+          Present &amp; Voting
         </button>
         <button @click="presence('Not Present')" class="red">
-          <p>Not Present</p>
+          Not Present
         </button>
       </div>
-        <button @click="$parent.$emit('stage', 2)"
+      <button @click="$parent.$emit('stage', 2)"
         :disabled="voteCount !== $store.state.delegates.length"
-        id="continue">
-          <p>Continue</p>
-        </button>
+        id="continue"
+      >
+        Continue
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import CardStack from '@/components/CardStack/index.vue';
+import Slider from '@/components/Slider/index.vue';
 
 export default {
   components: {
-    CardStack,
+    Slider,
   },
   data() {
     return {
@@ -61,15 +63,6 @@ export default {
       this.$store.commit('undo');
     },
   },
-  // watch: {
-  //   voteCount() {
-  //     if (this.voteCount === this.$store.state.delegates.length) {
-  //       setTimeout(() => {
-  //         this.$parent.$emit('stage', 2);
-  //       }, 1000);
-  //     }
-  //   },
-  // },
 };
 </script>
 
