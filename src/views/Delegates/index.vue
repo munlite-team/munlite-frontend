@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.$store.commit('reset');
+      // this.$store.commit('reset');
       this.showOverlay = true;
       this.stage = 1;
     },
@@ -122,7 +122,7 @@ export default {
         this.stage = 0;
         this.showOverlay = false;
         this.warning = false;
-        this.$store.commit('reset');
+        // this.$store.commit('reset');
       }
     },
   },

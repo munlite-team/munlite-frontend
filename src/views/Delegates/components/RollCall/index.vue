@@ -6,7 +6,7 @@
     <h2>Roll Call</h2>
     <h3>Countries</h3>
     <div id='call'>
-      <Slider :active="voteCount" :current="currentCountry" @move="move"/>
+      <Slider :active="voteCount" :current="currentCountry" @move="move" v-if="true"/>
       <!-- <CardStack :active="voteCount" prgrs="presence" desc="presence" /> -->
       <div id='selection'>
         <!-- <button @click="un()"
@@ -61,6 +61,7 @@ export default {
       // } else if (j === 'Present & Voting') {
       //   this.$store.commit('presentVoting');
       // }
+      this.$children[0].nextSlide();
     },
     un() {
       this.voteCount -= 1;
