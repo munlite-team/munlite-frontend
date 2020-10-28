@@ -3,7 +3,13 @@
     <div class="delegates-upper">
       <h1 class="title">Delegates</h1>
       <div class="delegates-button">
-        <button class="button" @click="showModal">Roll Call</button>
+        <button
+          class="button"
+          @click="showModal"
+          :disabled="delegatesData.length<1"
+        >
+          Roll Call
+        </button>
         <div class="button">
           <input
             v-model="newCountry"
@@ -13,6 +19,13 @@
           />
           <font-awesome-icon :icon="['fas', 'plus']" @click="toggleInput"/>
         </div>
+        <button
+          class="button warning"
+          :disabled="delegatesData.length<1"
+          @click="resetStatus"
+        >
+          Reset
+        </button>
       </div>
     </div>
     <div class="delegates-table">
@@ -72,7 +85,7 @@
 </template>
 
 <script>
-import { getAllDelegates } from '@/api/delegates';
+import { getAllDelegates, editDelegates } from '@/api/delegates';
 import { getConference } from '@/api/conference';
 import { countryDetails } from '@/const/country';
 import Warning from '@/components/Warning/index.vue';
@@ -154,6 +167,38 @@ export default {
         console.error(err);
       }
     },
+    async resetStatus() {
+      // eslint-disable-next-line no-restricted-globals
+      // const r = confirm('Do you want to reset all delegates?');
+      // if (r === true) {
+      //   try {
+      //     await this.delegatesData.forEach((del) => {
+      //       const data = {
+      //         country: del.country,
+      //         status: 'N/A',
+      //       };
+      //       editDelegates('5f96e22bdb7ee38458e581e9', data);
+      //     });
+      //   } catch (err) {
+      //     console.error(err);
+      //   } finally {
+      //     this.updateDelegatesData();
+      //   }
+      // }
+      try {
+        await this.delegatesData.forEach((del) => {
+          const data = {
+            country: del.country,
+            status: 'N/A',
+          };
+          editDelegates('5f96e22bdb7ee38458e581e9', data);
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        this.updateDelegatesData();
+      }
+    },
   },
   watch: {
     stage() {
@@ -202,5 +247,5 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/index.scss';
-@import './index.scss'
+@import './index.scss';
 </style>

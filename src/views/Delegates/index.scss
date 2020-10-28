@@ -43,6 +43,20 @@
       cursor: pointer;
       height: auto;
 
+      &.warning {
+        background-color: $red;
+        color: white;
+        border-color: transparent;
+
+        &:disabled {
+          opacity: 0.6;
+        }
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
       @include max-media(tablet) {
         margin: 1rem 1rem 1rem 0;
       }

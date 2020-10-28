@@ -75,7 +75,7 @@ export default {
       return '';
     },
     nextSlide() {
-      setTimeout(() => { this.$refs.carousel.slideNext(); }, 700);
+      setTimeout(() => { this.$refs.carousel.slideNext(); }, 850);
     },
   },
 };
