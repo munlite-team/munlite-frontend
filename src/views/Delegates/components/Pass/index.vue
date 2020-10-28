@@ -39,13 +39,13 @@ export default {
   beforeDestroyed() {
     this.$emit('clear');
   },
-  watch: {
-    countdown() {
-      if (this.countdown === 0) {
-        this.$router.push('/gsl');
-      }
-    },
-  },
+  // watch: {
+  //   countdown() {
+  //     if (this.countdown === 0) {
+  //       this.$router.push('/gsl');
+  //     }
+  //   },
+  // },
 };
 </script>
 

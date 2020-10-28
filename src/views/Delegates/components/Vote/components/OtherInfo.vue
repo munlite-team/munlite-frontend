@@ -3,31 +3,42 @@
     <div>
       <h3>Majority</h3>
       <div class="delegates">
-        <h2>4</h2><p>&nbsp;delegates</p>
+        {{ rulesData.majority }}
       </div>
     </div>
     <div>
       <h3>Quorum</h3>
       <div class="delegates">
-        <h2>4</h2><p>&nbsp;delegates</p>
+        {{ rulesData.quorum }}
       </div>
     </div>
     <div>
-      <h3>DR Sponsors</h3>
+      <h3>DR Vote</h3>
       <div class="delegates">
-        <h2>{{ $store.state.info['DR Sponsors'] }}</h2><p>&nbsp;delegates</p>
+        {{ rulesData.dr_vote }}
       </div>
     </div>
     <div class="center">
       <h3>Rounding</h3>
-      <font-awesome-icon :icon="['fas', 'arrow-up']" size="lg" />
+      <font-awesome-icon
+        :icon="['fas', 'arrow-up']"
+        size="lg"
+        v-if="(rulesData.rounding).split(' ')[1] =='Up' "
+      />
+      <font-awesome-icon
+        :icon="['fas', 'arrow-down']"
+        size="lg"
+        v-else
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    rulesData: Object,
+  },
 };
 </script>
 

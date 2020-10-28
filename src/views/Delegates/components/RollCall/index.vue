@@ -6,15 +6,13 @@
     <h2>Roll Call</h2>
     <h3>Countries</h3>
     <div id='call'>
-      <Slider :active="voteCount" :current="currentCountry" @move="move" v-if="true"/>
-      <!-- <CardStack :active="voteCount" prgrs="presence" desc="presence" /> -->
+      <Slider
+        :active="voteCount"
+        :current="currentCountry"
+        @move="move" v-if="true"
+        :delegatesData="delegatesData"
+      />
       <div id='selection'>
-        <!-- <button @click="un()"
-        :disabled="voteCount === 0"
-        title="Undo"
-        class="red" id="undo">
-          <font-awesome-icon :icon="['fas', 'undo']" size="lg" />
-        </button> -->
         <button @click="presence('Present')">
           Present
         </button>
@@ -26,7 +24,7 @@
         </button>
       </div>
       <button @click="$parent.$emit('stage', 2)"
-        :disabled="voteCount !== $store.state.delegates.length"
+        :disabled="voteCount !== delegatesData.length"
         id="continue"
       >
         Continue
@@ -36,6 +34,7 @@
 </template>
 
 <script>
+import { editDelegates, getAllDelegates } from '@/api/delegates';
 import Slider from '@/components/Slider/index.vue';
 
 export default {
@@ -48,19 +47,24 @@ export default {
       currentCountry: 0,
     };
   },
+  props: {
+    delegatesData: Array,
+  },
   methods: {
-    presence(j) {
+    async presence(j) {
       const i = this.currentCountry;
-      const status = this.$store.state.delegates[i].presence;
-      if (status === 'N/A') {
-        this.voteCount += 1;
+      try {
+        const data = {
+          country: this.delegatesData[i].country,
+          status: j,
+        };
+        await editDelegates('5f96e22bdb7ee38458e581e9', data);
+        this.$emit('update');
+
+        this.getVoteCount();
+      } catch (err) {
+        console.error(err);
       }
-      this.$store.commit('presence', { i, j });
-      // if (j === 'Present') {
-      //   this.$store.commit('present');
-      // } else if (j === 'Present & Voting') {
-      //   this.$store.commit('presentVoting');
-      // }
       this.$children[0].nextSlide();
     },
     un() {
@@ -70,6 +74,13 @@ export default {
     move(index) {
       this.currentCountry = index;
     },
+    async getVoteCount() {
+      const vote = await getAllDelegates('5f96e22bdb7ee38458e581e9');
+      this.voteCount = (vote.data.data.filter((obj) => obj.status !== 'N/A')).length;
+    },
+  },
+  created() {
+    this.getVoteCount();
   },
 };
 </script>

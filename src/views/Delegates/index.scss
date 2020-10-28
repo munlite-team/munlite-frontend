@@ -99,6 +99,10 @@
         @include max-media(tablet) {
           width: 100%;
         }
+
+        &.empty-data {
+          color: gray;
+        }
   
         .data {
           display: flex;

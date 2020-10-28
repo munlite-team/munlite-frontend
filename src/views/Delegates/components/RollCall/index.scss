@@ -12,6 +12,7 @@
 
   @include max-media (mobile) {
       min-width: 350px;
+      padding: 5%;
   }
 
   @include max-media (small-mobile) {
@@ -113,6 +114,7 @@
     &#continue {
       background-color: $blue;
       color: white;
+      width: 35%;
 
       &:hover {
         box-shadow: 0 0 20px 0 rgba(95,120,255,0.7);

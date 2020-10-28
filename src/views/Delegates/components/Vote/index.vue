@@ -7,25 +7,25 @@
       <h3>Voting</h3>
       <p v-if="$store.state.widthWindow < 600">Swipe to view more</p>
       <div class="info" v-if="$store.state.widthWindow > 600">
-        <PresenceInfo />
+        <PresenceInfo :info="info"/>
         <div class="line" />
-        <OtherInfo />
+        <OtherInfo :rulesData="rulesData"/>
       </div>
       <div class="info" v-else>
-        <PresenceInfo class="swipe active" v-touch:swipe="swipeHandler" />
-        <OtherInfo class="swipe" v-touch:swipe="swipeHandler" />
+        <PresenceInfo class="swipe active" v-touch:swipe="swipeHandler" :info="info"/>
+        <OtherInfo class="swipe" v-touch:swipe="swipeHandler" :rulesData="rulesData"/>
       </div>
       <p>Votes to open the debate</p>
       <div id="select">
         <div class="selection">
           <input class="input blue" type="number" min="0"
-          :max="this.$store.state.delegates.length - this.no"
+          :max="this.delegatesData.length - this.no"
           v-model.number="yes">
           <h2 class="blue">Yes</h2>
         </div>
         <div class="selection">
           <input class="input red" type="number" min="0"
-          :max="this.$store.state.delegates.length - this.yes"
+          :max="this.delegatesData.length - this.yes"
           v-model.number="no">
           <h2 class="red">No</h2>
         </div>
@@ -65,6 +65,11 @@ export default {
       no: 0,
     };
   },
+  props: {
+    delegatesData: Array,
+    info: Object,
+    rulesData: Object,
+  },
   computed: {
     vote() {
       if (this.no > this.yes) {
@@ -73,7 +78,7 @@ export default {
       return false;
     },
     left() {
-      return this.$store.state.delegates.length - (this.yes + this.no);
+      return this.delegatesData.length - (this.yes + this.no);
     },
   },
   methods: {

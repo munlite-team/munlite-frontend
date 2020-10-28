@@ -2,20 +2,20 @@
   <hooper id="sliderCard" @slide="move" ref="carousel">
     <slide
       class="card"
-      v-for="(del, i) in $store.state.delegates"
+      v-for="(del, i) in delegatesData"
       :key="i"
-      :class="{white : del.presence !== 'N/A'}"
+      :class="{white : del.status !== 'N/A'}"
     >
-      <p class="desc">{{ countryDesc(del.presence) }}</p>
+      <p class="desc">{{ countryDesc(del.status) }}</p>
       <div class="country">
         <img
-          :src="`https://www.countryflags.io/${del.id}/flat/64.png`"
-          :alt="del.short"
+          :src="`https://www.countryflags.io/${countryId(del.country)}/flat/64.png`"
+          :alt="del.country"
           class="img"
         />
-        <h1>{{ del.short }}</h1>
+        <h1>{{ countryShort(del.country) }}</h1>
       </div>
-      <div class="progress" :class="color(del.id, i)"></div>
+      <div class="progress" :class="color(del.status)"></div>
     </slide>
 
     <hooper-navigation slot="hooper-addons"></hooper-navigation>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { countryDetails } from '@/const/country';
 import {
   Hooper,
   Slide,
@@ -45,6 +46,7 @@ export default {
       required: true,
     },
     current: Number,
+    delegatesData: Array,
   },
   methods: {
     move(payload) {
@@ -53,13 +55,20 @@ export default {
     countryDesc(presence) {
       return presence === 'N/A' ? '' : presence;
     },
-    color(id) {
-      const status = this.$store.state.delegates.find((obj) => obj.id === id);
-      if (status.presence === 'Present' || status.presence === 'Present & Voting') {
+    countryShort(name) {
+      const short = countryDetails.find((obj) => obj.name === name);
+      return short.short;
+    },
+    countryId(name) {
+      const short = countryDetails.find((obj) => obj.name === name);
+      return short.id;
+    },
+    color(presence) {
+      if (presence === 'Present' || presence === 'Present & Voting') {
         return 'blue';
       }
 
-      if (status.presence === 'Not Present') {
+      if (presence === 'Not Present') {
         return 'red';
       }
 

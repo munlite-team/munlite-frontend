@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <p v-else class="message">No chair in list</p>
+        <p v-else class="empty-data">No chair in the list</p>
       </div>
       <div class="rules">
         <p class="rules-sub-header">Rules</p>
@@ -47,7 +47,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      title: 'MUN 2020',
+      title: '',
       chairData: [],
       rules: ['Majority', 'DR Votes', 'Quorum', 'Rounding'],
       rulesData: [],
@@ -55,7 +55,7 @@ export default {
   },
   async created() {
     try {
-      const conference = await getConference('5f95b8fc4ade2f262207498f');
+      const conference = await getConference('5f96e22bdb7ee38458e581e9');
       this.rulesData = Object.values(conference.data.data.rules);
       this.title = conference.data.data.title;
       if (conference.data.data.chairman) {
