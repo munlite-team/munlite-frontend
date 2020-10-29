@@ -1,6 +1,6 @@
 <template>
   <div id='rollcall'>
-    <a @click="$parent.$emit('no-modal-warn')" id='close' title="Close">
+    <a @click="$parent.$emit('confirm', 'discard')" id='close' title="Close">
       <font-awesome-icon :icon="['fas', 'times']" size="lg" />
     </a>
     <h2>Roll Call</h2>

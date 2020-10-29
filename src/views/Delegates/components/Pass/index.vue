@@ -3,8 +3,8 @@
     <a @click="$parent.$emit('stage', 0)" id='close'>
       <font-awesome-icon :icon="['fas', 'times']" size="lg" />
     </a>
-    <h1>The Motion Passes!</h1>
-    <h3>The debate is now open.</h3>
+    <h2>The Motion Passes!</h2>
+    <p>The debate is now open.</p>
     <router-link to="/gsl">
       <button>
         Speakers List ({{ countdown }})
@@ -39,13 +39,16 @@ export default {
   beforeDestroyed() {
     this.$emit('clear');
   },
-  // watch: {
-  //   countdown() {
-  //     if (this.countdown === 0) {
-  //       this.$router.push('/gsl');
-  //     }
-  //   },
-  // },
+  watch: {
+    countdown() {
+      if (this.countdown === 0) {
+        document.querySelector('body').style.removeProperty('height');
+        document.querySelector('body').style.removeProperty('width');
+        document.querySelector('body').style.removeProperty('overflow');
+        this.$router.push('/gsl');
+      }
+    },
+  },
 };
 </script>
 

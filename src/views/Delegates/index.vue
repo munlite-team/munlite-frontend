@@ -59,12 +59,6 @@
     </div>
     <transition name="fade">
       <div class="rollcall" v-if="showOverlay">
-        <transition name="fade">
-          <Warning :key="0" v-if='warning'
-          title="Are You Sure?"
-          desc="This will discard all current roll call &amp; voting progress." />
-        </transition>
-        <div class="overlay" v-if="warning" />
         <RollCall
           :key="1"
           :delegatesData="delegatesData"
@@ -88,7 +82,6 @@
 import { getAllDelegates, editDelegates } from '@/api/delegates';
 import { getConference } from '@/api/conference';
 import { countryDetails } from '@/const/country';
-import Warning from '@/components/Warning/index.vue';
 import RollCall from './components/RollCall/index.vue';
 import Vote from './components/Vote/index.vue';
 import Pass from './components/Pass/index.vue';
@@ -97,7 +90,6 @@ export default {
   name: 'Delegates',
   components: {
     RollCall,
-    Warning,
     Vote,
     Pass,
   },
@@ -168,35 +160,21 @@ export default {
       }
     },
     async resetStatus() {
-      // eslint-disable-next-line no-restricted-globals
-      // const r = confirm('Do you want to reset all delegates?');
-      // if (r === true) {
-      //   try {
-      //     await this.delegatesData.forEach((del) => {
-      //       const data = {
-      //         country: del.country,
-      //         status: 'N/A',
-      //       };
-      //       editDelegates('5f96e22bdb7ee38458e581e9', data);
-      //     });
-      //   } catch (err) {
-      //     console.error(err);
-      //   } finally {
-      //     this.updateDelegatesData();
-      //   }
-      // }
       try {
-        await this.delegatesData.forEach((del) => {
+        this.delegatesData.forEach(async (del) => {
           const data = {
             country: del.country,
             status: 'N/A',
           };
-          editDelegates('5f96e22bdb7ee38458e581e9', data);
+          const responses = new Promise((resolve) => {
+            resolve(editDelegates('5f96e22bdb7ee38458e581e9', data));
+          });
+          responses.then(() => {
+            this.updateDelegatesData();
+          });
         });
       } catch (err) {
         console.error(err);
-      } finally {
-        this.updateDelegatesData();
       }
     },
   },
@@ -204,8 +182,10 @@ export default {
     stage() {
       if (this.stage > 0) {
         document.querySelector('body').style.cssText = 'height: 100vh; width: 100vw; overflow: hidden;';
-      } else if (this.stage === 0) {
-        document.querySelector('body').removeAttributes('height', 'width', 'overflow');
+      } else {
+        document.querySelector('body').style.removeProperty('height');
+        document.querySelector('body').style.removeProperty('width');
+        document.querySelector('body').style.removeProperty('overflow');
       }
     },
     warning() {

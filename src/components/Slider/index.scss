@@ -48,6 +48,15 @@
         height: 3rem;
       }
     }
+
+    @media only screen and (max-width: 300px) {
+      font-size: 1rem;
+
+      img {
+        height: 2rem;
+        margin-right: 5px;
+      }
+    }
   }
 
   .progress {
@@ -86,6 +95,12 @@
   @include max-media(small-mobile) {
     width: 240px;
     height: 150px;
+    margin-bottom: 1rem;
+  }
+
+  @media only screen and (max-width: 300px) {
+    width: 180px;
+    height: 125px;
   }
 }
 
