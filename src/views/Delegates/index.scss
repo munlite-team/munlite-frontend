@@ -42,6 +42,9 @@
       margin-left: 1rem;
       cursor: pointer;
       height: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
       &.warning {
         background-color: $red;
@@ -65,26 +68,28 @@
         font-size: 14px;
       }
 
-      input {
-        margin-right: 0;
-        border: none;
-        width: 0;
-        color: $dark-grey;
-        @include transition(linear, 0.3s);
-
+      .input {
+        input {
+          margin-right: 0;
+          width: 0;
+          @include transition(linear, 0.3s);
+        }
+        
         &.show {
-          width: 200px;
-          margin-right: 1rem;
-          padding-left: 5px;
-          font-size: 18px;
+          input {
+            width: 200px;
+            margin-right: 1rem;
+            padding-left: 5px;
+            font-size: 18px;
 
-          @include max-media(mobile) {
-            width: 100px;
-            font-size: 14px;
-          }
+            @include max-media(mobile) {
+              width: 100px;
+              font-size: 14px;
+            }
 
-          @include max-media(small-mobile) {
-            width: 60px;
+            @include max-media(small-mobile) {
+              width: 60px;
+            }
           }
         }
 
@@ -194,7 +199,7 @@
 
           @include max-media(mobile) {
             width: 90%;
-            justify-content: center;
+            justify-content: space-evenly;
           }
 
           .emphasize {
@@ -217,6 +222,7 @@
             @include max-media(mobile) {
               flex-direction: row;
               width: 8rem;
+              margin-right: 0;
             }
           }
 

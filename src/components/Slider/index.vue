@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { countryDetails } from '@/const/country';
+import { negara } from '@/const/country';
 import {
   Hooper,
   Slide,
@@ -56,11 +56,11 @@ export default {
       return presence === 'N/A' ? '' : presence;
     },
     countryShort(name) {
-      const short = countryDetails.find((obj) => obj.name === name);
-      return short.short;
+      const short = name.substring(0, 3).toUpperCase();
+      return short;
     },
     countryId(name) {
-      const short = countryDetails.find((obj) => obj.name === name);
+      const short = negara.find((obj) => obj.name === name);
       return short.id;
     },
     color(presence) {

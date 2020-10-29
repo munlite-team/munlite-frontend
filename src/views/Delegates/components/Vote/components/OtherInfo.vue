@@ -2,19 +2,19 @@
   <div id="grid">
     <div>
       <h3>Majority</h3>
-      <div class="delegates">
+      <div class="delegates-row">
         {{ rulesData.majority }}
       </div>
     </div>
     <div>
       <h3>Quorum</h3>
-      <div class="delegates">
+      <div class="delegates-row">
         {{ rulesData.quorum }}
       </div>
     </div>
     <div>
       <h3>DR Vote</h3>
-      <div class="delegates">
+      <div class="delegates-row">
         {{ rulesData.dr_vote }}
       </div>
     </div>

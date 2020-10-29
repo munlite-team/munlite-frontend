@@ -11,11 +11,11 @@
           Roll Call
         </button>
         <div class="button">
-          <input
-            v-model="newCountry"
-            type="text"
-            placeholder="add country..."
+          <Autocomplete
+            :items="countryList"
             :class="{show: showInput == true}"
+            class="input"
+            @update="updateDelegatesData"
           />
           <font-awesome-icon :icon="['fas', 'plus']" @click="toggleInput"/>
         </div>
@@ -40,7 +40,10 @@
               <p class="name" @mouseover="hoverable = index" @mouseleave="hoverable = null">
                 <img :src="`https://www.countryflags.io/${getDelegatesID(data.country)}/flat/64.png`" :alt="data.name" class="img"/>
                 {{ data.country }}
-                <span :class="{show: hoverable == index}">
+                <span
+                  :class="{show: hoverable == index}"
+                  @click="deleteDelegatesData(data.country)"
+                >
                   <font-awesome-icon :icon="['fas', 'trash-alt']" />
                 </span>
               </p>
@@ -79,9 +82,10 @@
 </template>
 
 <script>
-import { getAllDelegates, editDelegates } from '@/api/delegates';
+import { getAllDelegates, editDelegates, deleteDelegates } from '@/api/delegates';
 import { getConference } from '@/api/conference';
-import { countryDetails } from '@/const/country';
+import { negara } from '@/const/country';
+import Autocomplete from '@/components/Autocomplete/index.vue';
 import RollCall from './components/RollCall/index.vue';
 import Vote from './components/Vote/index.vue';
 import Pass from './components/Pass/index.vue';
@@ -92,6 +96,7 @@ export default {
     RollCall,
     Vote,
     Pass,
+    Autocomplete,
   },
   data() {
     return {
@@ -104,6 +109,7 @@ export default {
       delegatesData: [],
       dr_vote: 0,
       rulesData: [],
+      countryList: negara,
     };
   },
   computed: {
@@ -130,8 +136,12 @@ export default {
       this.newCountry = '';
     },
     getDelegatesID(name) {
-      const data = countryDetails.filter((obj) => obj.name === name);
-      return data[0].id;
+      const data = negara.filter((obj) => obj.name === name);
+      if (data) {
+        return data[0].id;
+      }
+      // console.log(name);
+      return 'ad';
     },
     sortCountry(items) {
       items.sort((a, b) => {
@@ -155,6 +165,18 @@ export default {
         if (delegates.data.data !== null) {
           this.delegatesData = this.sortCountry(delegates.data.data);
         }
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async deleteDelegatesData(country) {
+      try {
+        const responses = new Promise((resolve) => {
+          resolve(deleteDelegates('5f96e22bdb7ee38458e581e9', country));
+        });
+        responses.then(() => {
+          this.updateDelegatesData();
+        });
       } catch (err) {
         console.error(err);
       }
@@ -225,7 +247,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/styles/index.scss';
 @import './index.scss';
 </style>
