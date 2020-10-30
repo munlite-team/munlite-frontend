@@ -61,15 +61,17 @@ export default {
     },
     async onEnter() {
       try {
-        const data = [{
-          country: this.newCountry,
-          status: 'N/A',
-        }];
-        await addDelegates('5f96e22bdb7ee38458e581e9', data);
-        this.$emit('update');
+        if (this.newCountry.length > 0) {
+          const data = [{
+            country: this.newCountry,
+            status: 'N/A',
+          }];
+          await addDelegates('5f96e22bdb7ee38458e581e9', data);
+          this.$emit('update');
 
-        this.newCountry = '';
-        this.isOpen = false;
+          this.newCountry = '';
+          this.isOpen = false;
+        }
       } catch (err) {
         console.error(err.response);
       }

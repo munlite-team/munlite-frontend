@@ -137,10 +137,9 @@ export default {
     },
     getDelegatesID(name) {
       const data = negara.filter((obj) => obj.name === name);
-      if (data) {
+      if (data.length > 0) {
         return data[0].id;
       }
-      // console.log(name);
       return 'ad';
     },
     sortCountry(items) {

@@ -60,8 +60,11 @@ export default {
       return short;
     },
     countryId(name) {
-      const short = negara.find((obj) => obj.name === name);
-      return short.id;
+      const data = negara.filter((obj) => obj.name === name);
+      if (data.length > 0) {
+        return data[0].id;
+      }
+      return 'ad';
     },
     color(presence) {
       if (presence === 'Present' || presence === 'Present & Voting') {
