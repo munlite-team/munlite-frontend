@@ -14,24 +14,21 @@ describe('Roll Call Modal Test', () => {
       .click();
     cy.contains('h2', 'Roll Call').should('be.visible');
   });
-  it('Roll call and able to undo then proceed to vote', () => {
+  it('Roll call then proceed to vote', () => {
     cy.get('button#continue').should('be.disabled').contains('Continue');
-    for (let i = 0; i < 11; i += 1) {
-      cy.get('button').contains('Present').click();
-    }
-    cy.get('button#undo').click();
-    cy.get('button').contains('Not Present').click();
-    cy.get('button').contains('Continue').click();
-  });
-  it('Shows warning Dialogue', () => {
-    cy.get('a#close').click();
-    cy.get('button').contains('discard').should('be.visible');
-    cy.get('button').contains('cancel').should('be.visible').click();
-  });
-  it('Proceed to last modal', () => {
-    cy.get('#select .selection:first-child .input').type('7');
-    cy.get('.input.red').type('4');
-    cy.get('button').contains('Pass').click();
+    let dataLength = 0;
+    cy.request('GET', 'https://dev.api.munlite.co/api/conference/5f96e22bdb7ee38458e581e9/delegates').then((response) => {
+      dataLength = response.body.data;
+      for (let i = 0; i < dataLength; i += 1) {
+        cy.get('button').contains('Present').click();
+        cy.wait(850);
+      }
+      cy.wait(850);
+      cy.get('button').contains('Continue').click();
+      cy.get('#select .selection:first-child .input').type('4');
+      cy.get('.input.red').type('3');
+      cy.get('button').contains('Pass').click();
+    });
   });
   it('Redirects to GSL', () => {
     cy.wait(1000);
