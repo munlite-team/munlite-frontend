@@ -153,7 +153,6 @@ export default {
           return 1;
         }
 
-        // equal
         return 0;
       });
       return items;

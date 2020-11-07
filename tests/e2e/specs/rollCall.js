@@ -1,11 +1,3 @@
-// import store from '../../../src/store/index';
-
-// describe('Read Vuex Store', () => {
-//   it('has delegates list', () => {
-//     expect(store.state.delegates[0].name).to.equal('Australia');
-//   });
-// });
-
 describe('Roll Call Modal Test', () => {
   it('Render Modal', () => {
     cy.visit('/delegates');
