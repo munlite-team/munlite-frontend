@@ -19,13 +19,6 @@
           />
           <font-awesome-icon :icon="['fas', 'plus']" @click="toggleInput"/>
         </div>
-        <button
-          class="button warning"
-          :disabled="delegatesData.length<1"
-          @click="resetStatus"
-        >
-          Reset
-        </button>
       </div>
     </div>
     <div class="delegates-table">
@@ -82,7 +75,7 @@
 </template>
 
 <script>
-import { getAllDelegates, editDelegates, deleteDelegates } from '@/api/delegates';
+import { getAllDelegates, deleteDelegates } from '@/api/delegates';
 import { getConference } from '@/api/conference';
 import { negara } from '@/const/country';
 import Autocomplete from '@/components/Autocomplete/index.vue';
@@ -174,24 +167,6 @@ export default {
         });
         responses.then(() => {
           this.updateDelegatesData();
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    async resetStatus() {
-      try {
-        this.delegatesData.forEach(async (del) => {
-          const data = {
-            country: del.country,
-            status: 'N/A',
-          };
-          const responses = new Promise((resolve) => {
-            resolve(editDelegates('5f96e22bdb7ee38458e581e9', data));
-          });
-          responses.then(() => {
-            this.updateDelegatesData();
-          });
         });
       } catch (err) {
         console.error(err);
